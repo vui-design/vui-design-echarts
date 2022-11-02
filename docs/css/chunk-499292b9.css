@@ -1,0 +1,128 @@
+
+.vui-layout-docs { position:relative; z-index:1; min-height:100vh; background-color:#fff; padding-top:64px;
+}
+.vui-layout-docs-header { position:fixed; top:0; left:0; right:0; z-index:100; border-bottom:1px solid #f0f0f0; padding:0 20px;
+}
+.vui-layout-docs-header .logo { float:left; display:block; padding:16px 0;
+}
+.vui-layout-docs-header .logo a { display:block; color:rgba(0,0,0,0.85); font-size:18px; font-weight:600; line-height:32px;
+}
+.vui-layout-docs-header .logo img { float:left; display:block; width:32px; height:32px; margin-right:16px;
+}
+.vui-layout-docs-header .npm { float:left; display:block; height:20px;
+}
+.vui-layout-docs-header .npm img { display:block; max-height:100%;
+}
+.vui-layout-docs-header .github { float:left; display:block;
+}
+.vui-layout-docs-header .github .github-repository { float:left; display:block; width:20px; height:20px; margin:2px 0;
+}
+.vui-layout-docs-header .github .github-repository svg { display:block; width:100%; height:100%;
+}
+.vui-layout-docs-header .github .github-stargazers { float:left; position:relative; display:block; border:1px solid #e0e0e0; border-radius:2px; background-color:#fff; margin-left:12px; padding:4px 8px; color:rgba(0,0,0,0.85); font-size:14px; line-height:1;
+}
+.vui-layout-docs-header .github .github-stargazers:before { content:""; position:absolute; top:50%; left:0; width:8px; height:8px; border-width:1px; border-style:solid; border-color:#e0e0e0 transparent transparent #e0e0e0; border-radius:2px; background-color:#fff; margin-top:-4px; margin-left:-4px; transform:rotate(-45deg);
+}
+.vui-layout-docs-header .vui-space { padding:20px 0;
+}
+.vui-layout-docs-body { background-color:#fff;
+}
+.vui-layout-docs-body-sider { position:fixed; left:0; top:0; bottom:0; border-right:1px solid #f0f0f0; background-color:#fff; padding-top:64px;
+}
+.vui-layout-docs-body-sider .ad { display:block; height:84px; border-radius:2px; background-color:#fafafa; margin:16px 16px 0 16px; overflow:hidden; opacity:0.9; transition:all 0.2s;
+}
+.vui-layout-docs-body-sider .ad img { display:block; width:100%;
+}
+.vui-layout-docs-body-sider .ad:hover { opacity:1;
+}
+.vui-layout-docs-body-sider .menu { padding:16px 0;
+}
+.vui-layout-docs-body-content { background-color:#fff; padding-left:241px;
+}
+.vui-layout-docs-body-content .vui-layout-docs-body-content-body { padding:24px;
+}
+.vui-layout-docs-body-content .vui-layout-docs-body-content-footer { border-top:1px solid #f0f0f0; padding:24px; text-align:center;
+}
+.vui-layout-docs-body-content .article { display:flex; align-items:stretch;
+}
+.vui-layout-docs-body-content .article-content { flex:1; overflow:hidden; color:rgba(0,0,0,0.85); font-size:14px; line-height:2;
+}
+.vui-layout-docs-body-content .article-content h1 { margin:24px 0; color:rgba(0,0,0,0.85); font-size:28px; font-weight:600;
+}
+.vui-layout-docs-body-content .article-content h1:first-child { margin-top:0;
+}
+.vui-layout-docs-body-content .article-content h2 { margin:16px 0; color:rgba(0,0,0,0.85); font-size:24px; font-weight:600;
+}
+.vui-layout-docs-body-content .article-content h3 { margin:16px 0; color:rgba(0,0,0,0.85); font-size:16px; font-weight:600;
+}
+.vui-layout-docs-body-content .article-content h4 { margin:16px 0; color:rgba(0,0,0,0.85); font-size:14px; font-weight:600;
+}
+.vui-layout-docs-body-content .article-content p { margin:16px 0; color:rgba(0,0,0,0.85); font-size:14px;
+}
+.vui-layout-docs-body-content .article-content blockquote { border-left:4px solid #e6e6e6; margin:16px 0; padding-left:12px;
+}
+.vui-layout-docs-body-content .article-content blockquote p { margin-bottom:0; color:rgba(0,0,0,0.45);
+}
+.vui-layout-docs-body-content .article-content table { width:100%; margin:16px 0;
+}
+.vui-layout-docs-body-content .article-content table th { border:1px solid #f0f0f0; background-color:#fafafa; padding:8px 16px; font-size:13px; text-align:left; vertical-align:top;
+}
+.vui-layout-docs-body-content .article-content table td { border:1px solid #f0f0f0; padding:8px 16px; font-size:13px; text-align:left; vertical-align:top;
+}
+.vui-layout-docs-body-content .article-content table.example-api-props th:nth-child(1) { white-space:nowrap;
+}
+.vui-layout-docs-body-content .article-content table.example-api-props th:nth-child(2) {
+}
+.vui-layout-docs-body-content .article-content table.example-api-props th:nth-child(3) {
+}
+.vui-layout-docs-body-content .article-content table.example-api-props th:nth-child(4) { white-space:nowrap;
+}
+.vui-layout-docs-body-content .article-content table.example-api-props td:nth-child(1) { font-family:Lucida Console, Consolas, Monaco, Andale Mono, Ubuntu Mono, monospace; white-space:nowrap;
+}
+.vui-layout-docs-body-content .article-content table.example-api-props td:nth-child(2) {
+}
+.vui-layout-docs-body-content .article-content table.example-api-props td:nth-child(3) { color:#ff4d4f; font-family:Lucida Console, Consolas, Monaco, Andale Mono, Ubuntu Mono, monospace;
+}
+.vui-layout-docs-body-content .article-content table.example-api-props td:nth-child(4) { font-family:Lucida Console, Consolas, Monaco, Andale Mono, Ubuntu Mono, monospace; white-space:nowrap;
+}
+.vui-layout-docs-body-content .article-content table.example-api-events th:nth-child(1) { white-space:nowrap;
+}
+.vui-layout-docs-body-content .article-content table.example-api-events th:nth-child(2) {
+}
+.vui-layout-docs-body-content .article-content table.example-api-events th:nth-child(3) {
+}
+.vui-layout-docs-body-content .article-content table.example-api-events th:nth-child(4) { white-space:nowrap;
+}
+.vui-layout-docs-body-content .article-content table.example-api-events td:nth-child(1) { font-family:Lucida Console, Consolas, Monaco, Andale Mono, Ubuntu Mono, monospace; white-space:nowrap;
+}
+.vui-layout-docs-body-content .article-content table.example-api-events td:nth-child(2) {
+}
+.vui-layout-docs-body-content .article-content table.example-api-events td:nth-child(3) { color:#ff4d4f; font-family:Lucida Console, Consolas, Monaco, Andale Mono, Ubuntu Mono, monospace;
+}
+.vui-layout-docs-body-content .article-content table.example-api-events td:nth-child(4) { font-family:Lucida Console, Consolas, Monaco, Andale Mono, Ubuntu Mono, monospace; white-space:nowrap;
+}
+.vui-layout-docs-body-content .article-content ul { list-style:circle; margin-bottom:16px; padding-left:18px;
+}
+.vui-layout-docs-body-content .article-content ul li p { margin-bottom:0;
+}
+.vui-layout-docs-body-content .article-content ol { list-style:circle; margin-bottom:16px; padding-left:18px;
+}
+.vui-layout-docs-body-content .article-content ol li { margin-bottom:5px;
+}
+.vui-layout-docs-body-content .article-content ol li p { margin-bottom:0;
+}
+.vui-layout-docs-body-content .article-content pre { margin:16px 0;
+}
+.vui-layout-docs-body-content .article-content code { border-radius:2px; border:1px solid #f0f0f0; background-color:#fafafa; margin:0; padding:2px 4px; color:rgba(0,0,0,0.65); font-size:13px; font-family:Lucida Console, Consolas, Monaco, Andale Mono, Ubuntu Mono, monospace;
+}
+.vui-layout-docs-body-content .article-content pre code { padding:12px 16px;
+}
+.vui-layout-docs-body-content .article-content b { font-weight:600;
+}
+.vui-layout-docs-body-content .article-content .vui-row + .vui-row { margin-top:16px;
+}
+.vui-layout-docs-body-content .article-anchors { width:120px; margin-left:24px;
+}
+.vui-layout-docs-body-content .article-anchors .vui-anchor { font-size:12px;
+}
+
