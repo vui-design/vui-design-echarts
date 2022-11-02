@@ -1,7 +1,6 @@
 {
-  "name": "vui-design-echarts-docs",
+  "name": "vui-design-echarts",
   "version": "2.0.0",
-  "private": true,
   "title": "Vui Design ECharts",
   "description": "Apache ECharts component for Vue.js 2.*.",
   "author": "kiwi <vui.design@aliyun.com>",
@@ -26,9 +25,9 @@
   "scripts": {
     "dev": "vue-cli-service serve",
     "docs": "vue-cli-service build",
+    "dist": "vue-cli-service build --mode lib --target lib --name vui-design-echarts src/index.js",
     "analyzer": "set analyzer=true && npm run serve",
-    "lint": "vue-cli-service lint",
-    "dist": "vue-cli-service build –target lib –name vui-design-echarts src/index.js"
+    "lint": "vue-cli-service lint"
   },
   "dependencies": {
     "core-js": "^3.17.3",

@@ -1,14 +1,16 @@
 const path = require("path");
+const resolve = dir => path.join(__dirname, dir);
 
+const env = process.env.NODE_ENV;
+const mode = process.env.VUE_APP_MODE;
 const publicPath = process.env.VUE_APP_PUBLIC_PATH;
 const outputDir = process.env.VUE_APP_OUTPUT_DIR;
-const resolve = dir => path.join(__dirname, dir);
 
 module.exports = {
   // 本地开发服务器配置
   devServer: {
     // host
-    host: "localhost",
+    host: "0.0.0.0",
     // 端口
     port: 80,
     // 编译完成自动打开浏览器
@@ -33,96 +35,126 @@ module.exports = {
   productionSourceMap: false,
   // 修改 webpack 配置
   configureWebpack: config => {
-    config.optimization = {
-      // 将 runtime 单独打包
-      runtimeChunk: "single",
-      // 分割 vendors 包，将第三依赖包单独打包
-      splitChunks: {
-        chunks: "all",
-        minSize: 10000,
-        maxInitialRequests: Infinity,
-        cacheGroups: {
-          "vue": {
-            name: "vue",
-            test: /[\\/]node_modules[\\/]vue[\\/]/,
-            priority: -10
-          },
-          "vue-i18n": {
-            name: "vue-i18n",
-            test: /[\\/]node_modules[\\/]vue-i18n[\\/]/,
-            priority: -11
-          },
-          "vue-router": {
-            name: "vue-router",
-            test: /[\\/]node_modules[\\/]vue-router[\\/]/,
-            priority: -12
-          },
-          "vuex": {
-            name: "vuex",
-            test: /[\\/]node_modules[\\/]vuex[\\/]/,
-            priority: -13
-          },
-          "vui-design": {
-            name: "vui-design",
-            test: /[\\/]node_modules[\\/]vui-design[\\/]/,
-            priority: -14
-          },
-          "vendors": {
-            name: "vendors",
-            test: /[\\/]node_modules[\\/]/,
-            priority: -20
+    // 扩展应用模式下的开发环境及生成环境构建配置
+    if (mode ===  "development" || mode === "production") {
+      config.optimization = {
+        // 将 runtime 单独打包
+        runtimeChunk: "single",
+        // 分割 vendors 包，将第三依赖包单独打包
+        splitChunks: {
+          chunks: "all",
+          minSize: 10000,
+          maxInitialRequests: Infinity,
+          cacheGroups: {
+            "vue": {
+              name: "vue",
+              test: /[\\/]node_modules[\\/]vue[\\/]/,
+              priority: -10
+            },
+            "vue-i18n": {
+              name: "vue-i18n",
+              test: /[\\/]node_modules[\\/]vue-i18n[\\/]/,
+              priority: -11
+            },
+            "vue-router": {
+              name: "vue-router",
+              test: /[\\/]node_modules[\\/]vue-router[\\/]/,
+              priority: -12
+            },
+            "vuex": {
+              name: "vuex",
+              test: /[\\/]node_modules[\\/]vuex[\\/]/,
+              priority: -13
+            },
+            "vui-design": {
+              name: "vui-design",
+              test: /[\\/]node_modules[\\/]vui-design[\\/]/,
+              priority: -14
+            },
+            "vendors": {
+              name: "vendors",
+              test: /[\\/]node_modules[\\/]/,
+              priority: -20
+            }
           }
         }
-      }
-    };
+      };
+    }
+    // 扩展库模式下的生成环境构建配置
+    else if (mode === "lib") {
+      // 将 vue 设置为外部依赖
+      const externalLibs = ["vue"];
+      const externals = [
+        function(context, request, callback) {
+          for (const lib of externalLibs) {
+            const regexp = new RegExp(`^${lib}`);
+
+            if (regexp.test(request)) {
+              return callback(null, lib);
+            }
+          }
+
+          callback();
+        }
+      ];
+
+      config.externals = externals;
+      config.output = {
+        ...config.output,
+        library: "VuiDesignEcharts",
+        libraryExport: "default"
+      };
+    }
   },
   // 修改 webpack 配置
   chainWebpack: config => {
-    // 设置项目资源文件目录别名，方便模块引入
-    config.resolve.alias.set("app", resolve("app"));
+    if (mode ===  "development" || mode === "production") {
+      // 设置项目资源文件目录别名，方便模块引入
+      config.resolve.alias.set("app", resolve("app"));
 
-    // 当环境变量 analyzer 为 true 进行打包文件分析
-    if (process.env.analyzer) {
-      config.plugin("webpack-bundle-analyzer").use(require("webpack-bundle-analyzer").BundleAnalyzerPlugin).end();
-    }
+      // 当环境变量 analyzer 为 true 进行打包文件分析
+      if (process.env.analyzer) {
+        config.plugin("webpack-bundle-analyzer").use(require("webpack-bundle-analyzer").BundleAnalyzerPlugin).end();
+      }
 
-    // 生产环境
-    if (process.env.NODE_ENV === "production") {
-      // JS 文件输出配置
-      config.output.filename("js/[name].js?v=[chunkhash:8]").end();
-      config.output.chunkFilename("js/[name].js?v=[chunkhash:8]").end();
+      // 生产环境
+      if (env === "production") {
+        // JS 文件输出配置
+        config.output.filename("js/[name].js?v=[chunkhash:8]").end();
+        config.output.chunkFilename("js/[name].js?v=[chunkhash:8]").end();
 
-      // CSS 文件输出配置
-      config.plugin("extract-css").tap(args => {
-        return [
-          {
-            filename: "css/[name].css?v=[chunkhash:8]",
-            chunkFilename: "css/[name].css?v=[chunkhash:8]"
-          }
-        ];
-      });
+        // CSS 文件输出配置
+        config.plugin("extract-css").tap(args => {
+          return [
+            {
+              filename: "css/[name].css?v=[chunkhash:8]",
+              chunkFilename: "css/[name].css?v=[chunkhash:8]"
+            }
+          ];
+        });
 
-      // 图片文件输出配置
-      config.module.rule("images").use("url-loader").loader("file-loader").options({
-        name: "images/[name].[ext]?v=[hash:8]"
-      });
-      config.module.rule("svg").use("file-loader").loader("file-loader").options({
-        name: "images/[name].[ext]?v=[hash:8]"
-      });
-    }
-    // 开发环境
-    else {
-      // JS 文件输出配置
-      config.output.filename("js/[name].js?v=[hash:8]").end();
-      config.output.chunkFilename("js/[name].js?v=[hash:8]").end();
+        // 图片文件输出配置
+        config.module.rule("images").use("url-loader").loader("file-loader").options({
+          name: "images/[name].[ext]?v=[hash:8]"
+        });
+        config.module.rule("svg").use("file-loader").loader("file-loader").options({
+          name: "images/[name].[ext]?v=[hash:8]"
+        });
+      }
+      // 开发环境
+      else {
+        // JS 文件输出配置
+        config.output.filename("js/[name].js?v=[hash:8]").end();
+        config.output.chunkFilename("js/[name].js?v=[hash:8]").end();
 
-      // 图片文件输出配置
-      config.module.rule("images").use("url-loader").loader("file-loader").options({
-        name: "images/[name].[ext]?v=[hash:8]"
-      });
-      config.module.rule("svg").use("file-loader").loader("file-loader").options({
-        name: "images/[name].[ext]?v=[hash:8]"
-      });
+        // 图片文件输出配置
+        config.module.rule("images").use("url-loader").loader("file-loader").options({
+          name: "images/[name].[ext]?v=[hash:8]"
+        });
+        config.module.rule("svg").use("file-loader").loader("file-loader").options({
+          name: "images/[name].[ext]?v=[hash:8]"
+        });
+      }
     }
   },
   // 
