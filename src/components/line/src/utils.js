@@ -1,6 +1,7 @@
 import echarts from "../../../libs/echarts";
 import is from "../../../utils/is";
 import merge from "../../../utils/merge";
+import getValueByPath from "../../../utils/getValueByPath";
 import defaults from "./defaults";
 
 // 获取 title 配置
@@ -32,7 +33,7 @@ export const getTitle = (title, titleStyle, subTitle, subTitleStyle) => {
 // 获取 xAxis 配置
 export const getXAxis = (data, dimension, xAxis) => {
   let computed = {
-    data: data.map(item => item[dimension])
+    data: data.map(item => getValueByPath(item, dimension))
   };
 
   return merge(true, {}, defaults.xAxis, computed, xAxis);
@@ -111,11 +112,11 @@ export const getGrid = (grid, title, subTitle, legend, zoom) => {
 };
 
 // 获取 data 数据
-const getRows = (data, dimension, metrics) => {
+const getRows = (data, dimension, metricKey) => {
   return data.map(row => {
     return {
-      name: row[dimension],
-      value: row[metrics]
+      name: getValueByPath(row, dimension),
+      value: getValueByPath(row, metricKey)
     };
   });
 };
@@ -127,16 +128,15 @@ export const getSeries = props => {
 
   return metrics.map((metric, metricIndex) => {
     const metricKey = is.json(metric) ? metric.key : metric;
-    const metricLabel = is.json(metric) ? metric.label : metric;
+    const metricName = is.json(metric) ? metric.name : metric;
     let serie = {
       type: "line",
-      name: metricLabel,
+      name: metricName,
       showSymbol: showSymbol,
       smooth: smooth,
       stackStrategy: stackStrategy,
       sampling: sampling,
-      itemStyle: {},
-      data: getRows(data, dimension, metricKey),
+      data: getRows(data, dimension, metricKey)
     };
 
     if (is.string(symbol)) {
@@ -215,7 +215,7 @@ export const getOptions = props => {
   const legend = getLegend(props.legend, props.metrics);
   const tooltip = getTooltip(props.tooltip);
   const toolbox = props.toolbox;
-  const visualMap = props.visualMap;
+  const visualMap = props.vm;
   const dataZoom = getDataZoom(props.zoom, legend);
   const grid = getGrid(props.grid, props.title, props.subTitle, legend, props.zoom);
   const series = getSeries(props);

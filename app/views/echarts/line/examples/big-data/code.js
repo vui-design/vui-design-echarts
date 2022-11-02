@@ -1,13 +1,13 @@
 const code =
 `<template>
   <vui-echarts-line
+    v-bind:data="data"
     v-bind:dimension="dimension"
     v-bind:metrics="metrics"
     v-bind:zoom="zoom"
     v-bind:sampling="sampling"
     v-bind:itemStyle="itemStyle"
     v-bind:areaStyle="areaStyle"
-    v-bind:data="data"
   />
 </template>
 
@@ -30,6 +30,7 @@ const code =
       }
 
       return {
+        data: data,
         dimension: "date",
         metrics: "value",
         zoom: [
@@ -54,8 +55,7 @@ const code =
               { offset: 1, color: "rgb(255, 70, 131)" }
             ])
           };
-        },
-        data: data
+        }
       };
     }
   };

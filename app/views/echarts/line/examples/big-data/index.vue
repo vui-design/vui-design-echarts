@@ -2,13 +2,13 @@
   <example v-bind:code="code" id="example-line-big-data">
     <template slot="demo">
       <vui-echarts-line
+        v-bind:data="data"
         v-bind:dimension="dimension"
         v-bind:metrics="metrics"
         v-bind:zoom="zoom"
         v-bind:sampling="sampling"
         v-bind:itemStyle="itemStyle"
         v-bind:areaStyle="areaStyle"
-        v-bind:data="data"
       />
     </template>
     <template slot="title">基础面积图</template>
@@ -41,6 +41,7 @@
 
       return {
         code,
+        data: data,
         dimension: "date",
         metrics: "value",
         zoom: [
@@ -65,8 +66,7 @@
               { offset: 1, color: "rgb(255, 70, 131)" }
             ])
           };
-        },
-        data: data
+        }
       };
     }
   };

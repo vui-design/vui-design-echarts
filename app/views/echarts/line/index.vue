@@ -59,7 +59,7 @@
     </vui-row>
     <h2 id="example-api">API</h2>
     <h3>Line 属性</h3>
-    <p>注意，以下配置项中，<code>label</code>、<code>itemStyle</code>、<code>lineStyle</code>、<code>areaStyle</code>、<code>markPoint</code>、<code>markLine</code> 以及 <code>markArea</code> 等被设为 <code>Function</code> 类型时，接收 <code>echarts</code>、<code>metric</code>、<code>metricIndex</code> 作为参数，一般用于在双折线（或以上）图表中根据 <code>metric</code> 指标返回不同折线的对应配置。</p>
+    <p>注意，以下属性中，<code>label</code>、<code>itemStyle</code>、<code>lineStyle</code>、<code>areaStyle</code>、<code>markPoint</code>、<code>markLine</code> 以及 <code>markArea</code> 等被设为 <code>Function</code> 类型时，接收 <code>echarts</code>、<code>metric</code>、<code>metricIndex</code> 作为参数，一般用于在双折线（或以上）图表中根据 <code>metric</code> 指标返回不同系列的对应配置。</p>
     <table class="example-api-props">
       <thead>
         <tr>
@@ -167,7 +167,7 @@
           <td>--</td>
         </tr>
         <tr>
-          <td>visualMap</td>
+          <td>vm</td>
           <td>用于进行视觉编码，也就是将数据映射到视觉元素（视觉通道），详情请参考 <a href="https://echarts.apache.org/zh/option.html#visualMap" target="_blank">visualMap</a> 配置项</td>
           <td>Object | Array</td>
           <td>--</td>
@@ -258,8 +258,8 @@
 <script>
   import Anchors from "app/mixins/anchors";
   import ExampleBasicUsage from "./examples/basic-usage";
-  import ExampleSmooth from "./examples/smooth";
   import ExampleDouble from "./examples/double";
+  import ExampleSmooth from "./examples/smooth";
   import ExampleArea from "./examples/area";
   import ExampleStack from "./examples/stack";
   import ExampleAreaStack from "./examples/area-stack";
@@ -277,8 +277,8 @@
     ],
     components: {
       ExampleBasicUsage,
-      ExampleSmooth,
       ExampleDouble,
+      ExampleSmooth,
       ExampleArea,
       ExampleStack,
       ExampleAreaStack,

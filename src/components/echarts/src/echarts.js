@@ -6,7 +6,7 @@ import echarts from "../../../libs/echarts";
 export const createProps = () => {
   return {
     width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).def("auto"),
-    height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).def("300px"),
+    height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).def("320px"),
     options: PropTypes.object
   };
 };

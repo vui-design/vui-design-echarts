@@ -4,6 +4,7 @@ const code =
     v-bind:data="data"
     v-bind:dimension="dimension"
     v-bind:metrics="metrics"
+    v-bind:backgroundStyle="backgroundStyle"
   />
 </template>
 
@@ -23,7 +24,10 @@ const code =
       return {
         data: data,
         dimension: "weekday",
-        metrics: "count"
+        metrics: "count",
+        backgroundStyle: {
+          color: "rgba(180, 180, 180, 0.2)"
+        }
       };
     }
   };

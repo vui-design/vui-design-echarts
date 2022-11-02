@@ -1,13 +1,14 @@
 <template>
-  <example v-bind:code="code" id="example-bar-basic-usage">
+  <example v-bind:code="code" id="example-bar-data-color">
     <template slot="demo">
       <vui-echarts-bar
         v-bind:data="data"
         v-bind:dimension="dimension"
         v-bind:metrics="metrics"
+        v-bind:itemStyle="itemStyle"
       />
     </template>
-    <template slot="title">基础柱状图</template>
+    <template slot="title">自定义单个柱子颜色</template>
   </example>
 </template>
 
@@ -34,7 +35,10 @@
         code,
         data: data,
         dimension: "weekday",
-        metrics: "count"
+        metrics: "count",
+        itemStyle: {
+          color: params => params.data.name === "Tue" ? "#a90000" : params.color
+        }
       };
     }
   };

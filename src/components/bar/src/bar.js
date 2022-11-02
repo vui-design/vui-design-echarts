@@ -1,12 +1,14 @@
 import VuiEcharts from "../../echarts";
 import PropTypes from "../../../utils/prop-types";
 import is from "../../../utils/is";
+import merge from "../../../utils/merge";
 import utils from "./utils";
 
 export const createProps = () => {
   return {
+    loading: PropTypes.bool.def(false),
     width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).def("auto"),
-    height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).def("300px"),
+    height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).def("320px"),
     data: PropTypes.array.def([]),
     dimension: PropTypes.string.def("name"),
     metrics: PropTypes.oneOfType([PropTypes.string, PropTypes.object, PropTypes.array]).def("value"),
@@ -14,16 +16,28 @@ export const createProps = () => {
     titleStyle: PropTypes.object,
     subTitle: PropTypes.string,
     subTitleStyle: PropTypes.object,
-    colors: PropTypes.array,
+    color: PropTypes.array,
+    grid: PropTypes.object,
+    axis: PropTypes.oneOf(["normal", "reverse"]).def("normal"),
     xAxis: PropTypes.object,
     yAxis: PropTypes.object,
     legend: PropTypes.object,
     tooltip: PropTypes.object,
-    zoomable: PropTypes.bool.def(false),
-    grid: PropTypes.object,
-    radius: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.array]).def("60%"),
-    label: PropTypes.object,
-    percentage: PropTypes.bool.def(true)
+    toolbox: PropTypes.object,
+    vm: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+    zoom: PropTypes.oneOfType([PropTypes.bool, PropTypes.array]).def(false),
+    stack: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+    stackStrategy: PropTypes.string,
+    sampling: PropTypes.oneOf(["lttb", "average", "max", "min", "sum"]),
+    label: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+    emphasis: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+    itemStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+    backgroundStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+    markPoint: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+    markLine: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+    markArea: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+    dataFormatter: PropTypes.func,
+    options: PropTypes.object
   };
 };
 
@@ -39,29 +53,15 @@ const VuiEchartsBar = {
   render() {
     const { $props: props } = this;
 
-    // options
-    const title = utils.getTitle(props.title, props.titleStyle, props.subTitle, props.subTitleStyle);
-    const xAxis = utils.getXAxis(props.data, props.dimension, props.xAxis);
-    const yAxis = utils.getYAxis(props.yAxis);
-    const legend = utils.getLegend(props.legend, props.metrics);
-    const tooltip = utils.getTooltip(props.tooltip, props.metrics);
-    const dataZoom = utils.getDataZoom(props.zoomable, legend);
-    const grid = utils.getGrid(props.grid, props.title, props.subTitle, legend, props.zoomable);
-    const series = utils.getSeries(props.data, props.dimension, props.metrics, props.colors);
-    const options = {
-      title,
-      xAxis,
-      yAxis,
-      dataZoom,
-      legend,
-      tooltip,
-      grid,
-      series
-    };
+    // Computed options
+    let options = utils.getOptions(props);
 
-    console.log(options)
+    // Native options
+    if (is.json(props.options)) {
+      options = merge(true, {}, options, props.options);
+    }
 
-    // render
+    // Render
     return (
       <VuiEcharts width={props.width} height={props.height} options={options} />
     );

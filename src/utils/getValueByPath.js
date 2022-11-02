@@ -1,4 +1,4 @@
-export default function getTargetByPath(source, path = "", strict) {
+export default function getValueByPath(source, path = "", strict) {
   path = path.replace(/\[(\w+)\]/g, ".$1");
   path = path.replace(/^\./, "");
 
@@ -6,7 +6,7 @@ export default function getTargetByPath(source, path = "", strict) {
   const length = keys.length;
   let i = 0;
 
-  for (; i < length - 1; ++i) {
+  for (; i < length - 1; i++) {
     if (!source && !strict) {
       break;
     }
@@ -18,16 +18,12 @@ export default function getTargetByPath(source, path = "", strict) {
     }
     else {
       if (strict) {
-        throw new Error("[Vui Design ECharts warn][getTargetByPath]: please transfer a valid prop path.");
+        throw new Error("[Vui Design ECharts warn][getValueByPath]: please transfer a valid prop path.");
       }
 
       break;
     }
   }
 
-  return {
-    from: source,
-    key: keys[i],
-    value: source ? source[keys[i]] : undefined
-  };
+  return source ? source[keys[i]] : undefined;
 };

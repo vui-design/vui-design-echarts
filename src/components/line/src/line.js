@@ -23,7 +23,7 @@ export const createProps = () => {
     legend: PropTypes.object,
     tooltip: PropTypes.object,
     toolbox: PropTypes.object,
-    visualMap: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+    vm: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
     zoom: PropTypes.oneOfType([PropTypes.bool, PropTypes.array]).def(false),
     symbol: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     showSymbol: PropTypes.bool.def(true),

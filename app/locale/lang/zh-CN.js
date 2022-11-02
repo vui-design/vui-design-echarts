@@ -47,5 +47,12 @@ export default {
     "example-line-sections": "一天用电量分布",
     "example-line-big-data": "大数据量面积图",
     "example-line-confidence-band": "Confidence Band",
+
+    "example-bar-basic-usage": "基础柱状图",
+    "example-bar-background": "带背景色的柱状图",
+    "example-bar-tick-align": "坐标轴刻度与标签对齐",
+    "example-bar-data-color": "自定义单个柱子颜色",
+    "example-bar-waterfall": "瀑布图（柱状图模拟）",
+    "example-bar-negative2": "交错正负轴标签",
   }
 };

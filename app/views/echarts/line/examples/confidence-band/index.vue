@@ -5,16 +5,16 @@
         v-bind:data="data"
         v-bind:dimension="dimension"
         v-bind:metrics="metrics"
+        v-bind:xAxis="xAxis"
+        v-bind:yAxis="yAxis"
+        v-bind:legend="legend"
+        v-bind:tooltip="tooltip"
         v-bind:symbol="symbol"
         v-bind:showSymbol="showSymbol"
         v-bind:stack="stack"
         v-bind:lineStyle="lineStyle"
         v-bind:itemStyle="itemStyle"
         v-bind:areaStyle="areaStyle"
-        v-bind:xAxis="xAxis"
-        v-bind:yAxis="yAxis"
-        v-bind:legend="legend"
-        v-bind:tooltip="tooltip"
       />
     </template>
     <template slot="title">Confidence Band</template>
@@ -139,42 +139,10 @@
         data: data,
         dimension: "date",
         metrics: [
-          { key: "value", label: "Value" },
-          { key: "l", label: "L" },
-          { key: "u", label: "U" }
+          { key: "value", name: "Value" },
+          { key: "l", name: "L" },
+          { key: "u", name: "U" }
         ],
-        symbol: function(echarts, metric, metricIndex) {
-          if (metric.key === "l" || metric.key === "u") {
-            return "none";
-          }
-        },
-        showSymbol: false,
-        stack: function(echarts, metric, metricIndex) {
-          if (metric.key === "l" || metric.key === "u") {
-            return "confidence-band";
-          }
-        },
-        lineStyle: function(echarts, metric, metricIndex) {
-          if (metric.key === "l" || metric.key === "u") {
-            return {
-              opacity: 0
-            };
-          }
-        },
-        itemStyle: function(echarts, metric, metricIndex) {
-          if (metric.key === "value") {
-            return {
-              color: "#333"
-            };
-          }
-        },
-        areaStyle: function(echarts, metric, metricIndex) {
-          if (metric.key === "u") {
-            return {
-              color: "#ccc"
-            };
-          }
-        },
         xAxis: {
           axisLabel: {
             formatter: function(value, index) {
@@ -211,6 +179,38 @@
           },
           formatter: function(params) {
             return (params[0].name + ": " + ((params[0].value - baseline) * 100).toFixed(1) + "%");
+          }
+        },
+        symbol: function(echarts, metric, metricIndex) {
+          if (metric.key === "l" || metric.key === "u") {
+            return "none";
+          }
+        },
+        showSymbol: false,
+        stack: function(echarts, metric, metricIndex) {
+          if (metric.key === "l" || metric.key === "u") {
+            return "confidence-band";
+          }
+        },
+        lineStyle: function(echarts, metric, metricIndex) {
+          if (metric.key === "l" || metric.key === "u") {
+            return {
+              opacity: 0
+            };
+          }
+        },
+        itemStyle: function(echarts, metric, metricIndex) {
+          if (metric.key === "value") {
+            return {
+              color: "#333"
+            };
+          }
+        },
+        areaStyle: function(echarts, metric, metricIndex) {
+          if (metric.key === "u") {
+            return {
+              color: "#ccc"
+            };
           }
         }
       };

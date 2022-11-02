@@ -46,9 +46,15 @@ export default {
   // 默认 tooltip 配置
   tooltip: {
     show: true,
-    trigger: "item",
+    trigger: "axis",
     axisPointer: {
-      type: "shadow"
+      type: "shadow",
+      label: {
+        backgroundColor: "auto",
+        padding: [2, 8, 0, 8],
+        fontSize: 12,
+        lineHeight: 20
+      }
     },
     borderWidth: 0,
     backgroundColor: "#fff",

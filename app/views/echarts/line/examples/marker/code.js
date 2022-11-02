@@ -1,24 +1,40 @@
 const code =
 `<template>
   <vui-echarts-line
+    v-bind:data="data"
     v-bind:dimension="dimension"
     v-bind:metrics="metrics"
     v-bind:yAxis="yAxis"
     v-bind:markPoint="markPoint"
     v-bind:markLine="markLine"
-    v-bind:data="data"
   />
 </template>
 
 <script>
   export default {
     data() {
+      const data = [
+        { weekday: "Mon", highest: 10, lowest: 1 },
+        { weekday: "Tue", highest: 11, lowest: -2 },
+        { weekday: "Wed", highest: 13, lowest: 2 },
+        { weekday: "Thu", highest: 11, lowest: 5 },
+        { weekday: "Fri", highest: 12, lowest: 3 },
+        { weekday: "Sat", highest: 12, lowest: 2 },
+        { weekday: "Sun", highest: 9, lowest: 0 }
+      ];
+
       return {
+        data: data,
         dimension: "weekday",
         metrics: [
-          { key: "highest", label: "Highest" },
-          { key: "lowest", label: "Lowest" }
+          { key: "highest", name: "Highest" },
+          { key: "lowest", name: "Lowest" }
         ],
+        yAxis: {
+          axisLabel: {
+            formatter: "{value} °C"
+          }
+        },
         markPoint: (echarts, metric, metricIndex) => {
           if (metric.key === "highest") {
             return {
@@ -67,21 +83,7 @@ const code =
               ]
             };
           }
-        },
-        yAxis: {
-          axisLabel: {
-            formatter: "{value} °C"
-          }
-        },
-        data: [
-          { weekday: "Mon", highest: 10, lowest: 1 },
-          { weekday: "Tue", highest: 11, lowest: -2 },
-          { weekday: "Wed", highest: 13, lowest: 2 },
-          { weekday: "Thu", highest: 11, lowest: 5 },
-          { weekday: "Fri", highest: 12, lowest: 3 },
-          { weekday: "Sat", highest: 12, lowest: 2 },
-          { weekday: "Sun", highest: 9, lowest: 0 }
-        ]
+        }
       };
     }
   };

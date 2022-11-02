@@ -1,12 +1,34 @@
 {
   "name": "vui-design-echarts-docs",
-  "version": "1.10.14",
+  "version": "2.0.0",
   "private": true,
+  "title": "Vui Design ECharts",
+  "description": "Apache ECharts component for Vue.js 2.*.",
+  "author": "kiwi <vui.design@aliyun.com>",
+  "main": "dist/vui-design-echarts.umd.js",
+  "homepage": "https://vui-design.github.io/vui-design-echarts/",
+  "keywords": [
+    "vui-design",
+    "echarts",
+    "vui-design-echarts",
+    "vue",
+    "vue.js",
+    "component",
+    "components",
+    "ui",
+    "framework"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vui-design/vui-design-echarts"
+  },
+  "license": "MIT",
   "scripts": {
     "dev": "vue-cli-service serve",
     "docs": "vue-cli-service build",
     "analyzer": "set analyzer=true && npm run serve",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "dist": "vue-cli-service build –target lib –name vui-design-echarts src/index.js"
   },
   "dependencies": {
     "core-js": "^3.17.3",

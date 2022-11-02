@@ -1,5 +1,7 @@
+import echarts from "../../../libs/echarts";
 import is from "../../../utils/is";
 import merge from "../../../utils/merge";
+import getValueByPath from "../../../utils/getValueByPath";
 import defaults from "./defaults";
 
 // 获取 title 配置
@@ -31,15 +33,15 @@ export const getTitle = (title, titleStyle, subTitle, subTitleStyle) => {
 // 获取 xAxis 配置
 export const getXAxis = (data, dimension, xAxis) => {
   let computed = {
-    data: data.map(item => item[dimension])
+    data: data.map(item => getValueByPath(item, dimension))
   };
 
-  return merge(true, defaults.xAxis, computed, xAxis);
+  return merge(true, {}, defaults.xAxis, computed, xAxis);
 };
 
 // 获取 yAxis 配置
 export const getYAxis = yAxis => {
-  return merge(true, defaults.yAxis, yAxis);
+  return merge(true, {}, defaults.yAxis, yAxis);
 };
 
 // 获取 legend 配置
@@ -48,25 +50,21 @@ export const getLegend = (legend, metrics) => {
 
   };
 
-  if (is.object(metrics) || is.string(metrics)) {
+  if (is.json(metrics) || is.string(metrics)) {
     computed.show = false;
   }
 
-  return merge(true, defaults.legend, computed, legend);
+  return merge(true, {}, defaults.legend, computed, legend);
 };
 
 // 获取 tooltip 配置
-export const getTooltip = (tooltip, metrics) => {
-  const computed = {
-    trigger: is.array(metrics) ? "axis" : "item"
-  };
-
-  return merge(true, defaults.tooltip, computed, tooltip);
+export const getTooltip = tooltip => {
+  return merge(true, {}, defaults.tooltip, tooltip);
 };
 
 // 获取 dataZoom 配置
-export const getDataZoom = (zoomable, legend) => {
-  if (!zoomable) {
+export const getDataZoom = (zoom, legend) => {
+  if (!zoom) {
     return;
   }
 
@@ -88,7 +86,7 @@ export const getDataZoom = (zoomable, legend) => {
 };
 
 // 获取 grid 配置
-export const getGrid = (grid, title, subTitle, legend, zoomable) => {
+export const getGrid = (grid, title, subTitle, legend, zoom) => {
   const computed = {
     top: 24,
     bottom: 16
@@ -106,66 +104,136 @@ export const getGrid = (grid, title, subTitle, legend, zoomable) => {
     computed.bottom += 16;
   }
 
-  if (zoomable) {
+  if (zoom) {
     computed.bottom += legend.show ? 40 : 24;
   }
 
-  return merge(true, defaults.grid, computed, grid);
+  return merge(true, {}, defaults.grid, computed, grid);
 };
 
 // 获取 data 数据
-const getRows = (data, dimension, metrics) => {
+const getRows = (data, dimension, metric, dataFormatter) => {
+  const metricKey = is.json(metric) ? metric.key : metric;
+
   return data.map(row => {
+    let options = {};
+
+    if (is.function(dataFormatter)) {
+      options = dataFormatter(row, metric);
+    }
+
     return {
-      name: row[dimension],
-      value: row[metrics]
+      name: getValueByPath(row, dimension),
+      value: getValueByPath(row, metricKey),
+      ...options
     };
   });
 };
 
 // 获取 series 配置
-export const getSeries = (data, dimension, metrics, colors) => {
-  let series = [];
+export const getSeries = props => {
+  const { data, dimension, stack, stackStrategy, sampling, label, emphasis, itemStyle, backgroundStyle, markPoint, markLine, markArea, dataFormatter } = props;
+  const metrics = is.array(props.metrics) ? props.metrics : [props.metrics];
 
-  if (is.object(metrics) || is.string(metrics)) {
+  return metrics.map((metric, metricIndex) => {
+    const metricName = is.json(metric) ? metric.name : metric;
     let serie = {
       type: "bar",
-      large: true,
-      itemStyle: {},
-      emphasis: {
-        focus: "series"
-      },
-      data: getRows(data, dimension, is.object(metrics) ? metrics.key : metrics)
+      name: metricName,
+      stackStrategy: stackStrategy,
+      sampling: sampling,
+      data: getRows(data, dimension, metric, dataFormatter)
     };
 
-    if (is.array(colors) && colors.length > 0) {
-      serie.itemStyle.color = params => colors[params.dataIndex % colors.length];
+    if (is.string(stack)) {
+      serie.stack = stack;
+    }
+    else if (is.function(stack)) {
+      serie.stack = stack(echarts, metric, metricIndex);
     }
 
-    series.push(serie);
-  }
-  else if (is.array(metrics)) {
-    series = metrics.map(metric => {
-      let serie = {
-        type: "bar",
-        name: is.object(metric) ? metric.label : metric,
-        large: true,
-        itemStyle: {},
-        emphasis: {
-          focus: "series"
-        },
-        data: getRows(data, dimension, is.object(metric) ? metric.key : metric),
-      };
-  
-      if (is.array(colors) && colors.length > 0) {
-        serie.itemStyle.color = params => colors[params.dataIndex % colors.length];
-      }
+    if (is.json(label)) {
+      serie.label = label;
+    }
+    else if (is.function(label)) {
+      serie.label = label(echarts, metric, metricIndex);
+    }
 
-      return serie;
-    });
-  }
+    if (is.json(emphasis)) {
+      serie.emphasis = emphasis;
+    }
+    else if (is.function(emphasis)) {
+      serie.emphasis = emphasis(echarts, metric, metricIndex);
+    }
 
-  return series;
+    if (is.json(itemStyle)) {
+      serie.itemStyle = itemStyle;
+    }
+    else if (is.function(itemStyle)) {
+      serie.itemStyle = itemStyle(echarts, metric, metricIndex);
+    }
+
+    if (is.json(backgroundStyle)) {
+      serie.showBackground = true;
+      serie.backgroundStyle = backgroundStyle;
+    }
+    else if (is.function(backgroundStyle)) {
+      serie.showBackground = true;
+      serie.backgroundStyle = backgroundStyle(echarts, metric, metricIndex);
+    }
+
+    if (is.json(markPoint)) {
+      serie.markPoint = markPoint;
+    }
+    else if (is.function(markPoint)) {
+      serie.markPoint = markPoint(echarts, metric, metricIndex);
+    }
+
+    if (is.json(markLine)) {
+      serie.markLine = markLine;
+    }
+    else if (is.function(markLine)) {
+      serie.markLine = markLine(echarts, metric, metricIndex);
+    }
+
+    if (is.json(markArea)) {
+      serie.markArea = markArea;
+    }
+    else if (is.function(markArea)) {
+      serie.markArea = markArea(echarts, metric, metricIndex);
+    }
+
+    return serie;
+  });
+};
+
+// 获取 ECharts 选项配置
+export const getOptions = props => {
+  const title = getTitle(props.title, props.titleStyle, props.subTitle, props.subTitleStyle);
+  const color = props.color;
+  const xAxis = getXAxis(props.data, props.dimension, props.xAxis);
+  const yAxis = getYAxis(props.yAxis);
+  const legend = getLegend(props.legend, props.metrics);
+  const tooltip = getTooltip(props.tooltip);
+  const toolbox = props.toolbox;
+  const visualMap = props.vm;
+  const dataZoom = getDataZoom(props.zoom, legend);
+  const grid = getGrid(props.grid, props.title, props.subTitle, legend, props.zoom);
+  const series = getSeries(props);
+
+  return {
+    title,
+    color,
+    xAxis: props.axis === "normal" ? xAxis : yAxis,
+    yAxis: props.axis === "normal" ? yAxis : xAxis,
+    legend,
+    tooltip,
+    toolbox,
+    dataZoom,
+    visualMap,
+    grid,
+    series
+  };
 };
 
 // 
@@ -177,5 +245,6 @@ export default {
   getTooltip,
   getDataZoom,
   getGrid,
-  getSeries
+  getSeries,
+  getOptions
 };

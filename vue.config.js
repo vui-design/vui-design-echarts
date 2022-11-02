@@ -80,7 +80,6 @@ module.exports = {
   chainWebpack: config => {
     // 设置项目资源文件目录别名，方便模块引入
     config.resolve.alias.set("app", resolve("app"));
-    config.resolve.alias.set("vui-design-echarts", resolve("src"));
 
     // 当环境变量 analyzer 为 true 进行打包文件分析
     if (process.env.analyzer) {
@@ -140,7 +139,7 @@ module.exports = {
       entry: "app/main.js",
       template: "public/index.html",
       filename: "index.html",
-      title: "Vui Design ECharts - Apache ECharts component for Vue.js.",
+      title: "Vui Design ECharts - Apache ECharts component for Vue.js 2.*.",
       chunks: ["runtime", "vue", "vue-i18n", "vue-router", "vuex", "vui-design", "vendors", "main"]
     }
   }

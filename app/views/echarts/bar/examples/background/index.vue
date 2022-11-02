@@ -1,13 +1,14 @@
 <template>
-  <example v-bind:code="code" id="example-bar-basic-usage">
+  <example v-bind:code="code" id="example-bar-background">
     <template slot="demo">
       <vui-echarts-bar
         v-bind:data="data"
         v-bind:dimension="dimension"
         v-bind:metrics="metrics"
+        v-bind:backgroundStyle="backgroundStyle"
       />
     </template>
-    <template slot="title">基础柱状图</template>
+    <template slot="title">带背景色的柱状图</template>
   </example>
 </template>
 
@@ -34,7 +35,10 @@
         code,
         data: data,
         dimension: "weekday",
-        metrics: "count"
+        metrics: "count",
+        backgroundStyle: {
+          color: "rgba(180, 180, 180, 0.2)"
+        }
       };
     }
   };

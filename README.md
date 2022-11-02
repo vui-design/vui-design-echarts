@@ -1,14 +1,14 @@
 <p align="center">
-    <a href="https://vui-design.github.io/vui-design-echarts-doc/" target="_blank">
+    <a href="https://vui-design.github.io/vui-design-echarts/" target="_blank">
         <img width="200" height="200" src="https://avatars2.githubusercontent.com/u/64267499?s=460&u=0f84e7ba145db5f246474896a38518a48d68824c&v=4" />
     </a>
 </p>
 
 <h1 align="center">Vui Design ECharts</h1>
 
-<div align="center">
+<p align="center">Apache ECharts component for Vue.js 2.*.</p>
 
-Apache ECharts component for Vue.js.
+<div align="center">
 
 [![NPM version][npm-image]][npm-url] [![NPM downloads][dm-image]][dm-url] [![NPM downloads][dt-image]][dt-url]
 
