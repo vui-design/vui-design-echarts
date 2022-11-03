@@ -22,6 +22,15 @@ const VuiEcharts = {
       chart: undefined
     };
   },
+  watch: {
+    options: {
+      immediate: false,
+      deep: true,
+      handler(value) {
+        this.$nextTick(() => this.init());
+      }
+    }
+  },
   methods: {
     init() {
       if (!is.object(this.options)) {

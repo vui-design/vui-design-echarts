@@ -1,6 +1,6 @@
 {
   "name": "vui-design-echarts",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "title": "Vui Design ECharts",
   "description": "Apache ECharts component for Vue.js 2.*.",
   "author": "kiwi <vui.design@aliyun.com>",

@@ -47,9 +47,6 @@ const VuiEchartsBar = {
     VuiEcharts
   },
   props: createProps(),
-  methods: {
-    
-  },
   render() {
     const { $props: props } = this;
 

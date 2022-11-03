@@ -4178,7 +4178,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 /***/ "9224":
 /***/ (function(module) {
 
-module.exports = JSON.parse("{\"name\":\"vui-design-echarts-docs\",\"version\":\"2.0.0\",\"private\":true,\"title\":\"Vui Design ECharts\",\"description\":\"Apache ECharts component for Vue.js 2.*.\",\"author\":\"kiwi <vui.design@aliyun.com>\",\"main\":\"dist/vui-design-echarts.umd.js\",\"homepage\":\"https://vui-design.github.io/vui-design-echarts/\",\"keywords\":[\"vui-design\",\"echarts\",\"vui-design-echarts\",\"vue\",\"vue.js\",\"component\",\"components\",\"ui\",\"framework\"],\"repository\":{\"type\":\"git\",\"url\":\"https://github.com/vui-design/vui-design-echarts\"},\"license\":\"MIT\",\"scripts\":{\"dev\":\"vue-cli-service serve\",\"docs\":\"vue-cli-service build\",\"dist\":\"vue-cli-service build --mode lib --target lib --name vui-design-echarts src/index.js\",\"analyzer\":\"set analyzer=true && npm run serve\",\"lint\":\"vue-cli-service lint\"},\"dependencies\":{\"core-js\":\"^3.17.3\",\"echarts\":\"^5.4.0\",\"resize-observer-polyfill\":\"^1.5.1\",\"vue\":\"^2.6.14\",\"vue-highlightjs\":\"^1.3.3\",\"vue-i18n\":\"^8.25.1\",\"vue-router\":\"^3.5.2\",\"vuex\":\"^3.6.2\",\"vui-design\":\"^1.10.14\"},\"devDependencies\":{\"@vue/cli-plugin-babel\":\"^4.5.13\",\"@vue/cli-plugin-eslint\":\"^4.5.13\",\"@vue/cli-service\":\"^4.5.13\",\"babel-eslint\":\"^10.1.0\",\"eslint\":\"^6.8.0\",\"eslint-plugin-vue\":\"^6.2.2\",\"less\":\"^3.10.3\",\"less-loader\":\"^5.0.0\",\"vue-template-compiler\":\"^2.6.14\",\"webpack-bundle-analyzer\":\"^4.4.2\"},\"eslintConfig\":{\"root\":true,\"env\":{\"node\":true},\"extends\":[\"plugin:vue/essential\",\"eslint:recommended\"],\"parserOptions\":{\"parser\":\"babel-eslint\"},\"rules\":{}},\"browserslist\":[\"> 1%\",\"last 2 versions\",\"not dead\"]}");
+module.exports = JSON.parse("{\"name\":\"vui-design-echarts\",\"version\":\"2.0.1\",\"title\":\"Vui Design ECharts\",\"description\":\"Apache ECharts component for Vue.js 2.*.\",\"author\":\"kiwi <vui.design@aliyun.com>\",\"main\":\"dist/vui-design-echarts.umd.js\",\"homepage\":\"https://vui-design.github.io/vui-design-echarts/\",\"keywords\":[\"vui-design\",\"echarts\",\"vui-design-echarts\",\"vue\",\"vue.js\",\"component\",\"components\",\"ui\",\"framework\"],\"repository\":{\"type\":\"git\",\"url\":\"https://github.com/vui-design/vui-design-echarts\"},\"license\":\"MIT\",\"scripts\":{\"dev\":\"vue-cli-service serve\",\"docs\":\"vue-cli-service build\",\"dist\":\"vue-cli-service build --mode lib --target lib --name vui-design-echarts src/index.js\",\"analyzer\":\"set analyzer=true && npm run serve\",\"lint\":\"vue-cli-service lint\"},\"dependencies\":{\"core-js\":\"^3.17.3\",\"echarts\":\"^5.4.0\",\"resize-observer-polyfill\":\"^1.5.1\",\"vue\":\"^2.6.14\",\"vue-highlightjs\":\"^1.3.3\",\"vue-i18n\":\"^8.25.1\",\"vue-router\":\"^3.5.2\",\"vuex\":\"^3.6.2\",\"vui-design\":\"^1.10.14\"},\"devDependencies\":{\"@vue/cli-plugin-babel\":\"^4.5.13\",\"@vue/cli-plugin-eslint\":\"^4.5.13\",\"@vue/cli-service\":\"^4.5.13\",\"babel-eslint\":\"^10.1.0\",\"eslint\":\"^6.8.0\",\"eslint-plugin-vue\":\"^6.2.2\",\"less\":\"^3.10.3\",\"less-loader\":\"^5.0.0\",\"vue-template-compiler\":\"^2.6.14\",\"webpack-bundle-analyzer\":\"^4.4.2\"},\"eslintConfig\":{\"root\":true,\"env\":{\"node\":true},\"extends\":[\"plugin:vue/essential\",\"eslint:recommended\"],\"parserOptions\":{\"parser\":\"babel-eslint\"},\"rules\":{}},\"browserslist\":[\"> 1%\",\"last 2 versions\",\"not dead\"]}");
 
 /***/ }),
 
@@ -123916,6 +123916,15 @@ const VuiEcharts = {
       chart: undefined
     };
   },
+  watch: {
+    options: {
+      immediate: false,
+      deep: true,
+      handler(value) {
+        this.$nextTick(() => this.init());
+      }
+    }
+  },
   methods: {
     init() {
       if (!is.object(this.options)) {
@@ -124404,7 +124413,6 @@ const VuiEchartsLine = {
     VuiEcharts: components_echarts
   },
   props: line_createProps(),
-  methods: {},
   render() {
     const h = arguments[0];
     const {
@@ -124788,7 +124796,6 @@ const VuiEchartsBar = {
     VuiEcharts: components_echarts
   },
   props: bar_createProps(),
-  methods: {},
   render() {
     const h = arguments[0];
     const {
