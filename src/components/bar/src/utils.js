@@ -30,18 +30,43 @@ export const getTitle = (title, titleStyle, subTitle, subTitleStyle) => {
   };
 };
 
+
+// 获取 grid 配置
+export const getGrid = grid => {
+  return merge(true, {}, defaults.grid, grid);
+};
+
+
 // 获取 xAxis 配置
 export const getXAxis = (data, dimension, xAxis) => {
-  let computed = {
-    data: data.map(item => getValueByPath(item, dimension))
-  };
+  if (is.array(xAxis)) {
+    return xAxis;
+  }
+  else {
+    xAxis = merge(true, {}, defaults.xAxis, xAxis);
 
-  return merge(true, {}, defaults.xAxis, computed, xAxis);
+    if (xAxis.type === "category" && !xAxis.data) {
+      xAxis.data = data.map(item => getValueByPath(item, dimension));
+    }
+
+    return xAxis;
+  }
 };
 
 // 获取 yAxis 配置
-export const getYAxis = yAxis => {
-  return merge(true, {}, defaults.yAxis, yAxis);
+export const getYAxis = (data, dimension, yAxis) => {
+  if (is.array(yAxis)) {
+    return yAxis;
+  }
+  else {
+    yAxis = merge(true, {}, defaults.yAxis, yAxis);
+
+    if (yAxis.type === "category" && !yAxis.data) {
+      yAxis.data = data.map(item => getValueByPath(item, dimension));
+    }
+
+    return yAxis;
+  }
 };
 
 // 获取 legend 配置
@@ -62,189 +87,186 @@ export const getTooltip = tooltip => {
   return merge(true, {}, defaults.tooltip, tooltip);
 };
 
-// 获取 dataZoom 配置
-export const getDataZoom = (zoom, legend) => {
-  if (!zoom) {
-    return;
-  }
-
-  const inside = {
-    type: "inside"
-  };
-  let slider = {
-    type: "slider",
-    handleSize: 24,
-    height: 24,
-    bottom: 8
-  };
-
-  if (legend.show) {
-    slider.bottom = 40;
-  }
-
-  return [inside, slider];
-};
-
-// 获取 grid 配置
-export const getGrid = (grid, title, subTitle, legend, zoom) => {
-  const computed = {
-    top: 24,
-    bottom: 16
-  };
-
-  if (title) {
-    computed.top += 16;
-  }
-
-  if (subTitle) {
-    computed.top += 20;
-  }
-
-  if (legend.show) {
-    computed.bottom += 16;
-  }
-
-  if (zoom) {
-    computed.bottom += legend.show ? 40 : 24;
-  }
-
-  return merge(true, {}, defaults.grid, computed, grid);
-};
-
 // 获取 data 数据
 const getRows = (data, dimension, metric, dataFormatter) => {
   const metricKey = is.json(metric) ? metric.key : metric;
 
   return data.map(row => {
-    let options = {};
+    let others = {};
 
     if (is.function(dataFormatter)) {
-      options = dataFormatter(row, metric);
+      others = dataFormatter(row, metric);
     }
 
     return {
-      name: getValueByPath(row, dimension),
+      name: dimension ? getValueByPath(row, dimension) : undefined,
       value: getValueByPath(row, metricKey),
-      ...options
+      ...others
     };
   });
 };
 
 // 获取 series 配置
 export const getSeries = props => {
-  const { data, dimension, stack, stackStrategy, sampling, label, emphasis, itemStyle, backgroundStyle, markPoint, markLine, markArea, dataFormatter } = props;
   const metrics = is.array(props.metrics) ? props.metrics : [props.metrics];
 
   return metrics.map((metric, metricIndex) => {
-    const metricName = is.json(metric) ? metric.name : metric;
+    const name = is.json(metric) ? metric.name : metric;
     let serie = {
-      type: "bar",
-      name: metricName,
-      stackStrategy: stackStrategy,
-      sampling: sampling,
-      data: getRows(data, dimension, metric, dataFormatter)
+      name: name,
+      data: getRows(props.data, props.dimension, metric, props.dataFormatter),
+      large: true
     };
 
-    if (is.string(stack)) {
-      serie.stack = stack;
+    if (is.number(props.xAxisIndex)) {
+      serie.xAxisIndex = props.xAxisIndex;
     }
-    else if (is.function(stack)) {
-      serie.stack = stack(echarts, metric, metricIndex);
-    }
-
-    if (is.json(label)) {
-      serie.label = label;
-    }
-    else if (is.function(label)) {
-      serie.label = label(echarts, metric, metricIndex);
+    else if (is.function(props.xAxisIndex)) {
+      serie.xAxisIndex = props.xAxisIndex(metric, metricIndex);
     }
 
-    if (is.json(emphasis)) {
-      serie.emphasis = emphasis;
+    if (is.number(props.yAxisIndex)) {
+      serie.yAxisIndex = props.yAxisIndex;
     }
-    else if (is.function(emphasis)) {
-      serie.emphasis = emphasis(echarts, metric, metricIndex);
-    }
-
-    if (is.json(itemStyle)) {
-      serie.itemStyle = itemStyle;
-    }
-    else if (is.function(itemStyle)) {
-      serie.itemStyle = itemStyle(echarts, metric, metricIndex);
+    else if (is.function(props.yAxisIndex)) {
+      serie.yAxisIndex = props.yAxisIndex(metric, metricIndex);
     }
 
-    if (is.json(backgroundStyle)) {
+    if (is.boolean(props.realtimeSort)) {
+      serie.realtimeSort = props.realtimeSort;
+    }
+    else if (is.function(props.realtimeSort)) {
+      serie.realtimeSort = props.realtimeSort(metric, metricIndex);
+    }
+
+    if (is.string(props.stack)) {
+      serie.stack = props.stack;
+    }
+    else if (is.function(props.stack)) {
+      serie.stack = props.stack(echarts, metric, metricIndex);
+    }
+
+    if (is.string(props.stackStrategy)) {
+      serie.stackStrategy = props.stackStrategy;
+    }
+    else if (is.function(props.stackStrategy)) {
+      serie.stackStrategy = props.stackStrategy(echarts, metric, metricIndex);
+    }
+
+    if (is.string(props.sampling)) {
+      serie.sampling = props.sampling;
+    }
+    else if (is.function(props.sampling)) {
+      serie.sampling = props.sampling(echarts, metric, metricIndex);
+    }
+
+    if (is.json(props.label)) {
+      serie.label = props.label;
+    }
+    else if (is.function(props.label)) {
+      serie.label = props.label(echarts, metric, metricIndex);
+    }
+
+    if (is.json(props.itemStyle)) {
+      serie.itemStyle = props.itemStyle;
+    }
+    else if (is.function(props.itemStyle)) {
+      serie.itemStyle = props.itemStyle(echarts, metric, metricIndex);
+    }
+
+    if (is.json(props.backgroundStyle)) {
       serie.showBackground = true;
-      serie.backgroundStyle = backgroundStyle;
+      serie.backgroundStyle = props.backgroundStyle;
     }
-    else if (is.function(backgroundStyle)) {
+    else if (is.function(props.backgroundStyle)) {
       serie.showBackground = true;
-      serie.backgroundStyle = backgroundStyle(echarts, metric, metricIndex);
+      serie.backgroundStyle = props.backgroundStyle(echarts, metric, metricIndex);
     }
 
-    if (is.json(markPoint)) {
-      serie.markPoint = markPoint;
+    if (is.json(props.emphasis)) {
+      serie.emphasis = props.emphasis;
     }
-    else if (is.function(markPoint)) {
-      serie.markPoint = markPoint(echarts, metric, metricIndex);
-    }
-
-    if (is.json(markLine)) {
-      serie.markLine = markLine;
-    }
-    else if (is.function(markLine)) {
-      serie.markLine = markLine(echarts, metric, metricIndex);
+    else if (is.function(props.emphasis)) {
+      serie.emphasis = props.emphasis(echarts, metric, metricIndex);
     }
 
-    if (is.json(markArea)) {
-      serie.markArea = markArea;
+    if (is.json(props.markPoint)) {
+      serie.markPoint = props.markPoint;
     }
-    else if (is.function(markArea)) {
-      serie.markArea = markArea(echarts, metric, metricIndex);
+    else if (is.function(props.markPoint)) {
+      serie.markPoint = props.markPoint(echarts, metric, metricIndex);
     }
 
-    return serie;
+    if (is.json(props.markLine)) {
+      serie.markLine = props.markLine;
+    }
+    else if (is.function(props.markLine)) {
+      serie.markLine = props.markLine(echarts, metric, metricIndex);
+    }
+
+    if (is.json(props.markArea)) {
+      serie.markArea = props.markArea;
+    }
+    else if (is.function(props.markArea)) {
+      serie.markArea = props.markArea(echarts, metric, metricIndex);
+    }
+
+    if (is.string(props.serieType)) {
+      serie.type = props.serieType;
+    }
+    else if (is.function(props.serieType)) {
+      serie.type = props.serieType(metric, metricIndex);
+    }
+
+    let others = {};
+
+    if (is.json(props.serie)) {
+      others = props.serie;
+    }
+    else if (is.function(props.serie)) {
+      others = props.serie(metric, metricIndex);
+    }
+
+    return {
+      ...serie,
+      ...others
+    };
   });
 };
 
 // 获取 ECharts 选项配置
 export const getOptions = props => {
-  const title = getTitle(props.title, props.titleStyle, props.subTitle, props.subTitleStyle);
-  const color = props.color;
-  const xAxis = getXAxis(props.data, props.dimension, props.xAxis);
-  const yAxis = getYAxis(props.yAxis);
-  const legend = getLegend(props.legend, props.metrics);
-  const tooltip = getTooltip(props.tooltip);
-  const toolbox = props.toolbox;
-  const visualMap = props.vm;
-  const dataZoom = getDataZoom(props.zoom, legend);
-  const grid = getGrid(props.grid, props.title, props.subTitle, legend, props.zoom);
-  const series = getSeries(props);
-
   return {
-    title,
-    color,
-    xAxis: props.axis === "normal" ? xAxis : yAxis,
-    yAxis: props.axis === "normal" ? yAxis : xAxis,
-    legend,
-    tooltip,
-    toolbox,
-    dataZoom,
-    visualMap,
-    grid,
-    series
+    title: getTitle(props.title, props.titleStyle, props.subTitle, props.subTitleStyle),
+    color: props.color,
+    grid: getGrid(props.grid),
+    xAxis: getXAxis(props.data, props.dimension, props.xAxis),
+    yAxis: getYAxis(props.data, props.dimension, props.yAxis),
+    visualMap: props.vm,
+    legend: getLegend(props.legend, props.metrics),
+    dataZoom: props.zoom,
+    tooltip: getTooltip(props.tooltip),
+    toolbox: props.toolbox,
+    animation: props.animation,
+    animationThreshold: props.animationThreshold,
+    animationEasing: props.animationEasing,
+    animationEasingUpdate: props.animationEasingUpdate,
+    animationDelay: props.animationDelay,
+    animationDelayUpdate: props.animationDelayUpdate,
+    animationDuration: props.animationDuration,
+    animationDurationUpdate: props.animationDurationUpdate,
+    series: getSeries(props)
   };
 };
 
 // 
 export default {
   getTitle,
+  getGrid,
   getXAxis,
   getYAxis,
   getLegend,
   getTooltip,
-  getDataZoom,
-  getGrid,
   getSeries,
   getOptions
 };

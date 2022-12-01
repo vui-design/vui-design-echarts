@@ -59,7 +59,7 @@
     </vui-row>
     <h2 id="example-api">API</h2>
     <h3>Line 属性</h3>
-    <p>注意，以下属性中，<code>label</code>、<code>itemStyle</code>、<code>lineStyle</code>、<code>areaStyle</code>、<code>markPoint</code>、<code>markLine</code> 以及 <code>markArea</code> 等被设为 <code>Function</code> 类型时，接收 <code>echarts</code>、<code>metric</code>、<code>metricIndex</code> 作为参数，一般用于在双折线（或以上）图表中根据 <code>metric</code> 指标返回不同系列的对应配置。</p>
+    <p>注意，以下属性中，label、itemStyle、lineStyle、areaStyle、markPoint、markLine 以及 markArea 等被设为 Function 类型时，接收 echarts、metric、metricIndex 作为参数，一般用于在双折线（或以上）图表中根据 metric 指标返回不同系列的相应配置。</p>
     <table class="example-api-props">
       <thead>
         <tr>

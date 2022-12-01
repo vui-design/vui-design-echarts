@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>快速上手</h1>
-    <p>Vui Design ECharts ECharts 致力于提供给程序员愉悦的开发体验。</p>
+    <p>Vui Design ECharts 致力于提供给程序员愉悦的开发体验。</p>
     <blockquote>
       <p>在开始之前，推荐先学习 <a href="https://vuejs.org/" target="_blank">Vue</a> 和 <a href="http://babeljs.io/docs/learn-es2015/" target="_blank">ES2015</a>，并正确安装和配置了 <a href="https://nodejs.org/">Node.js</a> v8 或以上。该文档假设你已了解关于 HTML、CSS 和 JavaScript 的中级知识，并且已经完全掌握了 Vue 全家桶的正确开发方式。如果你刚开始学习前端或者 Vue，将组件库作为你的第一步可能不是最好的主意。</p>
     </blockquote>

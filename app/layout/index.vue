@@ -150,24 +150,24 @@
   .vui-layout-docs-body-content .article-content blockquote { border-left:4px solid #e6e6e6; margin:16px 0; padding-left:12px; }
   .vui-layout-docs-body-content .article-content blockquote p { margin-bottom:0; color:rgba(0,0,0,0.45); }
   .vui-layout-docs-body-content .article-content table { width:100%; margin:16px 0; }
-  .vui-layout-docs-body-content .article-content table th { border:1px solid #f0f0f0; background-color:#fafafa; padding:8px 16px; font-size:13px; text-align:left; vertical-align:top; }
+  .vui-layout-docs-body-content .article-content table th { border:1px solid #f0f0f0; background-color:#fafafa; padding:8px 16px; font-size:13px; font-weight:600; text-align:left; vertical-align:top; }
   .vui-layout-docs-body-content .article-content table td { border:1px solid #f0f0f0; padding:8px 16px; font-size:13px; text-align:left; vertical-align:top; }
   .vui-layout-docs-body-content .article-content table.example-api-props th:nth-child(1) { white-space:nowrap; }
-  .vui-layout-docs-body-content .article-content table.example-api-props th:nth-child(2) {  }
-  .vui-layout-docs-body-content .article-content table.example-api-props th:nth-child(3) {  }
+  .vui-layout-docs-body-content .article-content table.example-api-props th:nth-child(3) { white-space:nowrap; }
   .vui-layout-docs-body-content .article-content table.example-api-props th:nth-child(4) { white-space:nowrap; }
-  .vui-layout-docs-body-content .article-content table.example-api-props td:nth-child(1) { font-family:Lucida Console, Consolas, Monaco, Andale Mono, Ubuntu Mono, monospace; white-space:nowrap; }
-  .vui-layout-docs-body-content .article-content table.example-api-props td:nth-child(2) {  }
-  .vui-layout-docs-body-content .article-content table.example-api-props td:nth-child(3) { color:#ff4d4f; font-family:Lucida Console, Consolas, Monaco, Andale Mono, Ubuntu Mono, monospace; }
-  .vui-layout-docs-body-content .article-content table.example-api-props td:nth-child(4) { font-family:Lucida Console, Consolas, Monaco, Andale Mono, Ubuntu Mono, monospace; white-space:nowrap; }
+  .vui-layout-docs-body-content .article-content table.example-api-props th[colspan="4"] { color:#ff4d4f; white-space:unset; }
+  .vui-layout-docs-body-content .article-content table.example-api-props td:nth-child(1) { white-space:nowrap; }
+  .vui-layout-docs-body-content .article-content table.example-api-props td:nth-child(3) { color:#ff4d4f; white-space:nowrap; }
+  .vui-layout-docs-body-content .article-content table.example-api-props td:nth-child(4) { white-space:nowrap; }
+  .vui-layout-docs-body-content .article-content table.example-api-props td[colspan="4"] { color:#ff4d4f; white-space:unset; }
   .vui-layout-docs-body-content .article-content table.example-api-events th:nth-child(1) { white-space:nowrap; }
-  .vui-layout-docs-body-content .article-content table.example-api-events th:nth-child(2) {  }
-  .vui-layout-docs-body-content .article-content table.example-api-events th:nth-child(3) {  }
+  .vui-layout-docs-body-content .article-content table.example-api-events th:nth-child(3) { white-space:nowrap; }
   .vui-layout-docs-body-content .article-content table.example-api-events th:nth-child(4) { white-space:nowrap; }
-  .vui-layout-docs-body-content .article-content table.example-api-events td:nth-child(1) { font-family:Lucida Console, Consolas, Monaco, Andale Mono, Ubuntu Mono, monospace; white-space:nowrap; }
-  .vui-layout-docs-body-content .article-content table.example-api-events td:nth-child(2) {  }
-  .vui-layout-docs-body-content .article-content table.example-api-events td:nth-child(3) { color:#ff4d4f; font-family:Lucida Console, Consolas, Monaco, Andale Mono, Ubuntu Mono, monospace; }
-  .vui-layout-docs-body-content .article-content table.example-api-events td:nth-child(4) { font-family:Lucida Console, Consolas, Monaco, Andale Mono, Ubuntu Mono, monospace; white-space:nowrap; }
+  .vui-layout-docs-body-content .article-content table.example-api-events th[colspan="4"] { color:#ff4d4f; white-space:unset; }
+  .vui-layout-docs-body-content .article-content table.example-api-events td:nth-child(1) { white-space:nowrap; }
+  .vui-layout-docs-body-content .article-content table.example-api-events td:nth-child(3) { color:#ff4d4f; white-space:nowrap; }
+  .vui-layout-docs-body-content .article-content table.example-api-events td:nth-child(4) { white-space:nowrap; }
+  .vui-layout-docs-body-content .article-content table.example-api-events td[colspan="4"] { color:#ff4d4f; white-space:unset; }
   .vui-layout-docs-body-content .article-content ul { list-style:circle; margin-bottom:16px; padding-left:18px; }
   .vui-layout-docs-body-content .article-content ul li p { margin-bottom:0; }
   .vui-layout-docs-body-content .article-content ol { list-style:circle; margin-bottom:16px; padding-left:18px; }

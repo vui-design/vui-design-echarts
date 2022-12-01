@@ -9,8 +9,8 @@
         v-bind:tooltip="tooltip"
         v-bind:stack="stack"
         v-bind:label="label"
-        v-bind:emphasis="emphasis"
         v-bind:itemStyle="itemStyle"
+        v-bind:emphasis="emphasis"
       />
     </template>
     <template slot="title">瀑布图（柱状图模拟）</template>
@@ -60,6 +60,14 @@
             };
           }
         },
+        itemStyle: function(echarts, metric, metricIndex) {
+          if (metric.key === "placeholder") {
+            return {
+              borderColor: "transparent",
+              color: "transparent"
+            };
+          }
+        },
         emphasis: function(echarts, metric, metricIndex) {
           if (metric.key === "placeholder") {
             return {
@@ -67,14 +75,6 @@
                 borderColor: "transparent",
                 color: "transparent"
               }
-            };
-          }
-        },
-        itemStyle: function(echarts, metric, metricIndex) {
-          if (metric.key === "placeholder") {
-            return {
-              borderColor: "transparent",
-              color: "transparent"
             };
           }
         }

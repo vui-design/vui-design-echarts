@@ -1,13 +1,20 @@
 
 export default {
+  // 默认 grid 配置
+  grid: {
+    containLabel: true,
+    top: 8,
+    bottom: 8,
+    left: 8,
+    right: 8
+  },
   // 默认 xAxis 配置
   xAxis: {
     type: "category"
   },
   // 默认 yAxis 配置
   yAxis: {
-    type: "value",
-    nameLocation: "center"
+    type: "value"
   },
   // 默认 legend 配置
   legend: {
@@ -65,11 +72,5 @@ export default {
       fontSize: 12,
       fontWeight: 400
     }
-  },
-  // 默认 grid 配置
-  grid: {
-    containLabel: true,
-    left: 24,
-    right: 8
   }
 };

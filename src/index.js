@@ -9,6 +9,9 @@ import pkg from "../package.json";
 // Language
 import locale from "./locale";
 
+// Library
+import echarts from "./libs/echarts";
+
 // Components
 import Echarts from "./components/echarts";
 import Line from "./components/line";
@@ -38,6 +41,7 @@ if (typeof window !== "undefined" && window.Vue) {
 }
 
 export {
+  echarts,
   Echarts,
   Line,
   Bar

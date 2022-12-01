@@ -11,7 +11,7 @@
         v-bind:areaStyle="areaStyle"
       />
     </template>
-    <template slot="title">基础面积图</template>
+    <template slot="title">大数据量面积图</template>
   </example>
 </template>
 

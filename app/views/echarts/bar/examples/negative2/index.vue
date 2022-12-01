@@ -5,14 +5,15 @@
         v-bind:data="data"
         v-bind:dimension="dimension"
         v-bind:metrics="metrics"
-        v-bind:axis="axis"
+        v-bind:grid="grid"
         v-bind:xAxis="xAxis"
         v-bind:yAxis="yAxis"
+        v-bind:stack="stack"
         v-bind:label="label"
-        v-bind:dataFormatter="dataFormatter"
+        v-bind:emphasis="emphasis"
       />
     </template>
-    <template slot="title">交错正负轴标签</template>
+    <template slot="title">正负条形图</template>
   </example>
 </template>
 
@@ -26,54 +27,63 @@
     },
     data() {
       const data = [
-        { category: "Ten", cost: -0.07 },
-        { category: "Nine", cost: -0.09 },
-        { category: "Eight", cost: 0.2 },
-        { category: "Seven", cost: 0.44 },
-        { category: "Six", cost: -0.23 },
-        { category: "Five", cost: 0.08 },
-        { category: "Four", cost: -0.17 },
-        { category: "Three", cost: 0.47 },
-        { category: "Two", cost: -0.36 },
-        { category: "One", cost: 0.18 }
+        { weekday: "Mon", profit: 200, income: 320, expenses: -120 },
+        { weekday: "Tue", profit: 170, income: 302, expenses: -132 },
+        { weekday: "Wed", profit: 240, income: 341, expenses: -101 },
+        { weekday: "Thu", profit: 244, income: 374, expenses: -134 },
+        { weekday: "Fri", profit: 200, income: 390, expenses: -190 },
+        { weekday: "Sat", profit: 220, income: 450, expenses: -230 },
+        { weekday: "Sun", profit: 210, income: 420, expenses: -210 }
       ];
 
       return {
         code,
         data: data,
-        dimension: "category",
-        metrics: "cost",
-        axis: "reverse",
-        xAxis: {
-          axisLine: {
-            show: false
-          },
-          axisLabel: {
-            show: false
-          },
-          axisTick: {
-            show: false
-          }
+        dimension: "weekday",
+        metrics: [
+          { key: "profit", name: "Profit" },
+          { key: "income", name: "Income" },
+          { key: "expenses", name: "Expenses" },
+        ],
+        grid: {
+          bottom: 32
         },
-        yAxis: {
+        xAxis: {
+          type: "value",
           splitLine: {
             lineStyle: {
               type: "dashed"
             }
           }
         },
-        label: {
-          show: true,
-          formatter: "{b}"
+        yAxis: {
+          type: "category",
+          axisTick: {
+            show: false
+          }
         },
-        dataFormatter: function(row, metric) {
-          const value = row[metric];
-
-          return {
-            label: {
-              position: value < 0 ? "right" : "inside"
-            }
-          };
+        stack: function(echarts, metric, metricIndex) {
+          if (metric.key === "income" || metric.key ===  "expenses") {
+            return "total";
+          }
+        },
+        label: function(echarts, metric, metricIndex) {
+          if (metric.key === "profit" || metric.key === "income") {
+            return {
+              show: true,
+              position: "inside",
+              color:"#fff"
+            };
+          }
+          else if (metric.key ===  "expenses") {
+            return {
+              show: true,
+              position: "left"
+            };
+          }
+        },
+        emphasis: {
+          focus: "series"
         }
       };
     }

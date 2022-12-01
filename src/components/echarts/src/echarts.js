@@ -45,6 +45,7 @@ const VuiEcharts = {
       else {
         this.chart = echarts.init(this.$el, "default");
         this.chart.setOption(this.options);
+        this.$emit("init", this.chart);
       }
     },
     resize() {

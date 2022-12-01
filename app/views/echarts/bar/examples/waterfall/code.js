@@ -8,8 +8,8 @@ const code =
     v-bind:tooltip="tooltip"
     v-bind:stack="stack"
     v-bind:label="label"
-    v-bind:emphasis="emphasis"
     v-bind:itemStyle="itemStyle"
+    v-bind:emphasis="emphasis"
   />
 </template>
 
@@ -49,6 +49,14 @@ const code =
             };
           }
         },
+        itemStyle: function(echarts, metric, metricIndex) {
+          if (metric.key === "placeholder") {
+            return {
+              borderColor: "transparent",
+              color: "transparent"
+            };
+          }
+        },
         emphasis: function(echarts, metric, metricIndex) {
           if (metric.key === "placeholder") {
             return {
@@ -56,14 +64,6 @@ const code =
                 borderColor: "transparent",
                 color: "transparent"
               }
-            };
-          }
-        },
-        itemStyle: function(echarts, metric, metricIndex) {
-          if (metric.key === "placeholder") {
-            return {
-              borderColor: "transparent",
-              color: "transparent"
             };
           }
         }
